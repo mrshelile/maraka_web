@@ -1,4 +1,4 @@
-function generateOTP(size) { 
+function generateOTP(size:Number) { 
   
     // Declare a digits variable 
     // which stores all digits  
