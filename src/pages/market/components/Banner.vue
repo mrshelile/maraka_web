@@ -5,11 +5,10 @@
     <!-- Carousel wrapper -->
     <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
          <!-- Item 1 -->
-        <div class="hidden duration-700 ease-in-out" data-carousel-item>
-
-            <div v-for="banner in banners" :key="banner.id" class="duration-700 ease-in-out" data-carousel-item>
-                <img :src="banner['subData']['image']"
-                    class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" :alt="banner.universal">
+        <div class=" duration-700 ease-in-out" data-carousel-item>
+            <div v-for="banner in 8" :key="banner" class="duration-700 ease-in-out" data-carousel-item>
+                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.DpcLyyRCeTWoiiMNdCTXxQHaEK%26pid%3DApi&f=1&ipt=0ae2128608d832938f88ff2bc64733e3c9588759e4208b652a3d828b4bf2f998&ipo=images"
+                    class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" :alt="Object(banner).universal">
             
             </div>
          
@@ -28,7 +27,7 @@
     <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
         <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
             <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+                <path stroke="currenbannertColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
             </svg>
             <span class="sr-only">Previous</span>
         </span>
@@ -53,7 +52,7 @@ export default {
     name: "Banner",
     data() {
         return {
-            banners:[] 
+            banners:[] as any[]
         }
     },
     methods: {
@@ -64,9 +63,9 @@ export default {
 
         // Extract the banners array from the response
         const banners = bannersResponse.data;
-
+        
         // Create an array of promises to fetch the sub-data for each banner
-        const promises = banners.map((banner) => {
+        const promises = banners.map((banner:any) => {
         // Fetch the sub-data for each banner using axios.get()
         return axios.get(banner.display);
         });
@@ -75,21 +74,22 @@ export default {
         const subDataResponses = await Promise.all(promises);
 
         // Map the sub-data responses to the corresponding banners
-        this.banners= banners.map((banner, index) => {
+        this.banners= banners.map((banner:any, index:any) => {
         // Get the sub-data response for the current banner
         const subDataResponse = subDataResponses[index];
 
         // Extract the sub-data from the response
         const subData = subDataResponse.data;
-
+       
         // Return the banner with the sub-data
+        // console.log(banner);
         return { ...banner, subData };
         });
-
+        console.log(this.banners);
         }        
     },
-    mounted() {
-        this.fetchBanners()
+   async mounted() {
+       await this.fetchBanners();
     },
 }
 </script>
