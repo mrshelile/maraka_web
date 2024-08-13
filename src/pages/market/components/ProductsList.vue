@@ -31,8 +31,8 @@
                 <router-link :to="{ name: 'product', params: { id: product.id }, }" class="group relative" v-for="product in current_products" :key="product.id">
                     <div
                         class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-                        <img :src="Object(product['display'])[0]['image']"
-                            alt="product['name']"
+                        <img :src="product.display[0]['image']"
+                            :alt="product.name"
                             class="h-full w-full object-cover object-center lg:h-full lg:w-full">
                     </div>
                     <div class="mt-4 ">
@@ -40,7 +40,7 @@
                             <h3 class="text-sm text-gray-700">
                                 <a  v-if="product.category=='cars'">
                                     <span aria-hidden="true" class="absolute inset-0"></span>
-                                    {{ Object(product['car'])['year'] +" "+Object(product['car'])['model'] + " "+ Object(product['car'])['model']}}
+                                    {{ product.car.year +" "+product.car.model + " "+ product.car.make }}
                                 </a>
                                 <a  v-else>
                                     <span aria-hidden="true" class="absolute inset-0"></span>
@@ -94,7 +94,7 @@ export default {
     async fetchProducts(){
         let response = await axios.get(server+'/product')
         if (response.status ==200) {
-            response.data.forEach((element:any) => {
+            response.data.forEach(element => {
                 var car=null;
                
         let product:Iproduct ={

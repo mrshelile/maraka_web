@@ -1,12 +1,22 @@
 <template>
     
 
+<<<<<<< HEAD
 <div id="default-carousel" class="relative w-full" data-carousel="slide">
     <!-- Carousel wrapper -->
     <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
          <!-- Item 1 -->
         <div class="hidden duration-700 ease-in-out" data-carousel-item>
             <img src="/docs/images/carousel/carousel-1.svg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+=======
+            <div v-for="banner in banners" :key="banner.id" class="duration-700 ease-in-out" data-carousel-item>
+                <img :src="banner['subData']['image']"
+                    class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" :alt="banner.universal">
+            
+            </div>
+         
+        
+>>>>>>> parent of 94bfca5 (fixing ts errors)
         </div>
         <!-- Item 2 -->
         <div class="hidden duration-700 ease-in-out" data-carousel-item>
@@ -75,7 +85,7 @@ export default {
         const banners = bannersResponse.data;
 
         // Create an array of promises to fetch the sub-data for each banner
-        const promises = banners.map((banner:any) => {
+        const promises = banners.map((banner) => {
         // Fetch the sub-data for each banner using axios.get()
         return axios.get(banner.display);
         });
@@ -84,7 +94,7 @@ export default {
         const subDataResponses = await Promise.all(promises);
 
         // Map the sub-data responses to the corresponding banners
-        this.banners= banners.map((banner:any, index:any) => {
+        this.banners= banners.map((banner, index) => {
         // Get the sub-data response for the current banner
         const subDataResponse = subDataResponses[index];
 
