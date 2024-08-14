@@ -1,14 +1,11 @@
 <script lang="ts">
-import { Navbar, NavbarLogo, NavbarCollapse, NavbarLink } from 'flowbite-vue'
+
 import logo from '../../src/assets/logo.png'
 export default {
   name: "Navigation",
 
   components: {
-    Navbar,
-    NavbarLogo,
-    NavbarCollapse,
-    NavbarLink
+
   },
   data() {
     return {
@@ -25,10 +22,10 @@ export default {
     if(localStorage.getItem('token')!=null)
       { 
         this.$store.commit('signIn');
-        this.token = localStorage.getItem('token');
-        this.full_name = localStorage.getItem('full_name');
-        this.phone = localStorage.getItem('phone');
-        this.email = localStorage.getItem('email');
+        this.token = localStorage.getItem('token')??'';
+        this.full_name = localStorage.getItem('full_name')??'';
+        this.phone = localStorage.getItem('phone')??'';
+        this.email = localStorage.getItem('email')??'';
       }
   },
 }

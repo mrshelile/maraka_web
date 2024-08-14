@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap');
-
+/* or in your `app.css` file */
+@import '/node_modules/flowbite-vue/dist/index.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
