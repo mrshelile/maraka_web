@@ -1,14 +1,64 @@
 <script lang="ts">
 import buyandsell from '../../../src/assets/buy.svg?url'
+import { FwbCarousel } from 'flowbite-vue'
+import axios from 'axios';
+import server from '../../boot/server';
 export default {
     name: "Home",
-data(vm) {
-    return{
-        buyandsell:buyandsell
-    }
-},
-    mounted() {
+    data(vm:any) {
+        return{
+            buyandsell:buyandsell,
+            banners:[] as any[]
+        }
+    },
+    methods: {
+        async fetchBanners(){
+            
+            try {
+            // Assume you have the banners response from the initial axios.get() call
+        const bannersResponse = await axios.get(`${server}/banners`);
+
+        // Extract the banners array from the response
+        const banners = bannersResponse.data;
+
+        // Filter out banners where splashscreen is false
+
+        const filteredBanners = banners.filter((banner:any) => banner.home);
+
+        // console.log(filteredBanners);
+        // Create an array of promises to fetch the sub-data for each banner
+        const promises = filteredBanners.map((banner:any) => {
+        // Fetch the sub-data for each banner using axios.get()
+        return axios.get(banner.display);
+        });
         
+        // Use Promise.all() to wait for all promises to resolve
+        const subDataResponses = await Promise.all(promises);
+
+        // Map the sub-data responses to the corresponding banners
+        this.banners= filteredBanners.map((banner:any, index:any) => {
+        // Get the sub-data response for the current banner
+        const subDataResponse = subDataResponses[index];
+
+        // Extract the sub-data from the response
+        const subData = subDataResponse.data;
+
+        // Return the banner with the sub-data
+        return {'alt':banner['owner'],'src': subData['image'] };
+        });
+   
+        } catch (error) {
+            
+          }
+        
+
+        }        
+    },
+    components:{
+        FwbCarousel,
+    },
+    mounted() {
+        this.fetchBanners();
         this.$store.commit("startNav");
     },
     created() {
@@ -44,11 +94,18 @@ data(vm) {
                 </router-link>
 
             </div>
-            <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
+            <div v-if="banners.length==0" class="hidden lg:mt-0 lg:col-span-5 lg:flex">
                 <img :src="buyandsell" alt="buyandsell">
+                
             </div>
+            <fwb-carousel v-else :pictures="banners" class="lg:mt-0 lg:col-span-5" />
         </div>
     </section>
 </template>
 
-<style scoped></style>
+<style scoped>
+.carousel-lg {
+    width: 800px; /* increase the width */
+    height: 600px; /* increase the height */
+  }
+</style>
