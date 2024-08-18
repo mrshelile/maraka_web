@@ -26,8 +26,18 @@
                     </ul>
                 </div>
             </h2>
-
-            <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+            <div v-if="products.length==0" class="grid grid-cols-1 mt-6 sm:grid-cols-1 md:grid-cols-1  rounded-md gap-1">
+                
+                <div>
+                    <h2 class="text-lg font-bold">Product Not Available</h2>
+                    <p class="text-gray-600 ">This is currently no data at the moment. Please check back later for availability.</p>
+                       
+                </div>
+            </div>
+        
+      
+            
+            <div v-else class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                 <router-link :to="{ name: 'product', params: { id: product.id }, }" class="group relative" v-for="product in current_products" :key="product.id">
                     <div
                         class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">

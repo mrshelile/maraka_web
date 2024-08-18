@@ -12,6 +12,9 @@ export default {
     name: "App",
     components: {
         Navigation
+    },
+    methods:{
+        
     }
 }
 </script>

@@ -1,8 +1,15 @@
 <template>
     <div class="bg-white">
         <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-2 lg:max-w-7xl lg:px-8">
-
-            <div class="mt-0  grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+            <div v-if="products.length==0" class="grid grid-cols-1 mt-6 sm:grid-cols-1 md:grid-cols-1  rounded-md gap-1">
+                
+                <div>
+                    <h2 class="text-lg font-bold">Product Not Available</h2>
+                    <p class="text-gray-600 ">This is currently no data at the moment. Please check back later for availability.</p>
+                       
+                </div>
+            </div>
+            <div v-else class="mt-0  grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                 <router-link :to="{ name: 'product', params: { id: product.id }, }" class="group relative" v-for="product in products" :key="product.id">
                     <div
                         class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
@@ -62,6 +69,7 @@ export default {
                 let item:Iproduct ={
                     category: element.category,
                     id: element.id,
+                    car:element.car,
                     created: element.created,
                     owner: element.owner,
                     name: element.name,
@@ -71,8 +79,10 @@ export default {
                     identifier: element.identifier,
                     display: element.display
                 };
+
                 this.products.push(item);  
             }
+            
         }
       } catch (error) {
         
