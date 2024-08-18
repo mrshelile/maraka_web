@@ -1,7 +1,7 @@
 <script lang="ts">
 import buyandsell from '../../../../src/assets/buy.svg?url'
 import { FwbCarousel } from 'flowbite-vue'
-
+import Vue from 'vue';
 export default {
     name: "MyHome",
     props:['banners'],
@@ -56,11 +56,6 @@ export default {
             </div>
            
             <fwb-carousel :pictures="this.$props.banners" class="lg:mt-0 lg:col-span-5" />
-            <!-- <div v-if="banners.length==0" class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-                <img :src="buyandsell" alt="buyandsell">
-                
-            </div>
-            <fwb-carousel v-else :pictures="banners" class="lg:mt-0 lg:col-span-5" /> -->
         </div>
     </section>
 </template>

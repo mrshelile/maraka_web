@@ -43,7 +43,7 @@
 </template>
 <script lang="ts">
 import axios from 'axios';
-import { Iproduct } from '../../market/interfaces/Iproduct';
+import { Iproduct } from '../../../interfaces/Iproduct';
 import {server} from '../../../boot/server';
 
 export default {

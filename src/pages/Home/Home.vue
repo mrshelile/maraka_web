@@ -6,7 +6,7 @@ import { defineAsyncComponent, ref } from 'vue';
 import {getBanners} from '../../utils/data/getData';
 const banners = ref([]); 
 const asyncMyHome =defineAsyncComponent({
-  loader: () => getBanners().then((data)=>
+  loader: () => getBanners(true).then((data)=>
 {   
     banners.value=data;
     return import('./components/MyHome.vue')
@@ -15,7 +15,7 @@ const asyncMyHome =defineAsyncComponent({
   timeout: 3000,
   errorComponent: ErrorComponetVue,
   loadingComponent: LoadingComponetVue
-})
+});
 
 export default {
     name: "Home",

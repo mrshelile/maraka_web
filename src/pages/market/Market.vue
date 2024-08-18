@@ -1,15 +1,28 @@
 <template>
-    <div>
-        <Banner/>
-        <ProductList />
-        <MyAdsButton v-if="$store.state.isLogin"/>
-    </div>
+    <MyMarket :banners="banners" :products="products"/>
 </template>
 <script lang="ts">
-import ProductList from '../market/components/ProductsList.vue'
-import Banner from './components/Banner.vue';
-// import 'flowbite'
-import MyAdsButton from './components/MyAdsButton.vue';
+import { defineAsyncComponent, ref } from 'vue';
+import {getBanners,fetchProducts} from '../../utils/data/getData';
+import LoadingComponetVue from '../../components/LoadingComponet.vue';
+import ErrorComponetVue from '../../components/ErrorComponet.vue';
+
+
+const banners = ref([]); 
+const products = ref([]);
+const asyncMyMarket =defineAsyncComponent({
+  loader: () => getBanners(true).then(async (data)=>
+    {   
+        banners.value=data;
+        products.value= (await fetchProducts()) as [];
+        // console.log(products.value);
+        return import('./components/MyMarket.vue');
+    }),
+    delay: 200,
+    timeout: 3000,
+    errorComponent: ErrorComponetVue,
+    loadingComponent: LoadingComponetVue
+    });
 export default {
     name: "Market",
     mounted() {
@@ -20,9 +33,13 @@ export default {
         // console.log(this.$store.state.isNavigation);  
     },
     components: {
-        ProductList,
-        Banner,
-       MyAdsButton
+        'MyMarket':asyncMyMarket
+    },
+    setup(){
+        return{
+            banners,
+            products
+        }
     }
 }
 </script>

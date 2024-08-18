@@ -71,16 +71,21 @@
     </div>
 </template>
 <script lang="ts">
-import axios from 'axios';
-import { Iproduct } from '../interfaces/Iproduct';
-import {server} from '../../../boot/server';
+
+import { Iproduct } from '../../../interfaces/Iproduct';
 
 export default {
     name: "ProductList",
+    props:{
+        data:{
+            type:Array<Iproduct>,
+            required:true,
+        }
+    },
     data() {
       return {
-       products:[] as Iproduct[],
-       current_products:[] as Iproduct[],
+       products:this.$props.data,
+       current_products:this.$props.data,
        current_category:"All Categories",
        all_categories:["cars","miscellaneous","All Categories"]
       }
@@ -101,48 +106,19 @@ export default {
      }
 
     },
-    async fetchProducts(){
-        let response = await axios.get(server+'/product')
-        if (response.status ==200) {
-            response.data.forEach(element => {
-                var car=null;
-               
-        let product:Iproduct ={
-            category: element.category,
-            id: element.id,
-            created: element.created,
-            owner:element.owner,
-            name: element.name,
-            description: element.description,
-            price:element.price,
-            expired_date: element.expire_date,
-            identifier:element.identifier,
-            display: element.display,
-            car:element.car
-        }
-        this.products.push(product);
-        this.current_products.push(product);
-        });
-        
-        }
-    }
+ 
   },
     mounted() {
         this.$store.commit("startNav");
-        if (localStorage.getItem('reloaded')) {
-            // The page was just reloaded. Clear the value from local storage
-            // so that it will reload the next time this page is visited.
-            localStorage.removeItem('reloaded');
-        } else {
-            // Set a flag so that we know not to reload the page twice.
-            localStorage.setItem('reloaded', '1');
-            location.reload();
-        }
-        try {
-            this.fetchProducts();
-        } catch (error) {
-            
-        }
+        // if (localStorage.getItem('reloaded')) {
+        //     // The page was just reloaded. Clear the value from local storage
+        //     // so that it will reload the next time this page is visited.
+        //     localStorage.removeItem('reloaded');
+        // } else {
+        //     // Set a flag so that we know not to reload the page twice.
+        //     localStorage.setItem('reloaded', '1');
+        //     location.reload();
+        // }
     },
     created() {
         this.$store.commit("startNav");
