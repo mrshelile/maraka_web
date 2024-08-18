@@ -72,7 +72,7 @@ export default {
                   
                 </ul>
                 <div class="py-1">
-                  <a @click="this.$store.commit('signOut')" class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 
+                  <a @click="$store.commit('signOut')" class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 
                   dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
                 </div>
             </div>

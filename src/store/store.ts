@@ -9,8 +9,13 @@ export var store = createStore({
             state.isLogin = true
             // console.log("siginin")
         },
-        signOut(state) { state.isLogin = false;
-            localStorage.clear(); },
+        signOut(state) { 
+            state.isLogin = false;
+            let toRemove=[
+                "email","full_name","id","phone","token"
+            ]
+            toRemove.forEach((val) => localStorage.removeItem(val));
+        },
         stopNav(state) {
             // mutate state
             state.isNavigation = false;

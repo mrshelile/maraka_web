@@ -1,14 +1,19 @@
 <script lang="ts">
-import buyandsell from '../../../../src/assets/buy.svg?url'
 import { FwbCarousel } from 'flowbite-vue'
-import Vue from 'vue';
-export default {
+import { defineComponent } from 'vue';
+export default defineComponent({
     name: "MyHome",
-    props:['banners'],
+    props:{
+        banners:{
+            type:Array,
+            required:true,
+            
+        },
+        
+    },
     data(vm:any) {
         return{
-            buyandsell:buyandsell,
-            // banners:[] as any[]
+        
         }
     },
     methods: {
@@ -25,7 +30,7 @@ export default {
         this.$store.commit("startNav");
         // console.log(this.$store.state.isNavigation);  
     },
-}
+})
 </script>
 
 <template>

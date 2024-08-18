@@ -2,7 +2,6 @@ import AuthVue from "../pages/auth/Auth.vue";
 import LoginVue from "../pages/auth/Login.vue";
 import ActivateAccount from "../pages/auth/ActivateAccount.vue"
 import AccountRegistered from "../pages/auth/AccountRegistered.vue"
-import PackagesVue from "../pages/auth/Packages.vue";
 import RegistrationVue from "../pages/auth/Registration.vue";
 import ForgotPassword from "../pages/auth/ForgotPassword.vue";
 import ResetPassword from "../pages/auth/ResetPassword.vue";

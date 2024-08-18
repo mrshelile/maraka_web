@@ -38,7 +38,7 @@
       
             
             <div v-else class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-                <a :href='`/ads-page/${product.id}`' class="group relative" v-for="product in current_products" :key="product.id">
+                <a :href='`/ads-page/${product.id}`' @click="setViewer(product.id)" class="group relative" v-for="product in current_products" :key="product.id">
                     <div
                         class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                         <img :src="Object(product.display)[0]['image']"
@@ -72,9 +72,9 @@
     </div>
 </template>
 <script lang="ts">
-
+import {createProductViews} from '../../../utils/data/getData'; 
 import { Iproduct } from '../../../interfaces/Iproduct';
-
+import {v4 as uuidv4} from 'uuid';
 export default {
     name: "ProductList",
     props:{
@@ -92,7 +92,17 @@ export default {
       }
   },
   methods: {
-    
+    async setViewer(id:number){
+        let myuuid = uuidv4();
+        // product.id
+        if(!localStorage.getItem("viewer"))
+        {   
+            localStorage.setItem("viewer",myuuid);
+        }else{
+            // alert(localStorage.getItem("viewer"))
+           await createProductViews(id,localStorage.getItem("viewer"))
+        }  
+    },
     changeCategory(category:any){
         this.current_products =[];
      this.current_category=category;
@@ -112,19 +122,11 @@ export default {
   },
     mounted() {
         this.$store.commit("startNav");
-        // if (localStorage.getItem('reloaded')) {
-        //     // The page was just reloaded. Clear the value from local storage
-        //     // so that it will reload the next time this page is visited.
-        //     localStorage.removeItem('reloaded');
-        // } else {
-        //     // Set a flag so that we know not to reload the page twice.
-        //     localStorage.setItem('reloaded', '1');
-        //     location.reload();
-        // }
+
     },
     created() {
         this.$store.commit("startNav");
-        // console.log(this.$store.state.isNavigation);  
+ 
     },
 }
 </script>

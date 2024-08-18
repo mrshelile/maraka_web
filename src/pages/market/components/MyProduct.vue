@@ -151,10 +151,11 @@ export default {
     components:{
         FwbCarousel,
     },
-    props: {
-        data:{
-            type:Object,
-            required:true
+    props:{
+        data: {
+        type: Object,
+        required: true,
+        default:{}
         }
     },
     data() {

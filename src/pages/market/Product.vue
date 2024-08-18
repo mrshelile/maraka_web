@@ -3,7 +3,7 @@
 </template>
 <script lang="ts" scoped>
 import 'flowbite'
-import { defineAsyncComponent, ref } from 'vue';
+import { defineAsyncComponent, ref,defineComponent } from 'vue';
 import {extractProductData} from '../../utils/data/getData';
 import LoadingComponetVue from '../../components/LoadingComponet.vue';
 import ErrorComponetVue from '../../components/ErrorComponet.vue';
@@ -27,7 +27,7 @@ const asyncProduct =defineAsyncComponent({
         return Promise.reject('No product data available');
         }
         product.value= data;
-        console.log(data);
+        // console.log(data);
         return import('./components/MyProduct.vue');
     }),
     delay: 1000,
@@ -35,7 +35,7 @@ const asyncProduct =defineAsyncComponent({
     errorComponent: ErrorComponetVue,
     loadingComponent: LoadingComponetVue
     });
-export default {
+export default defineComponent({
     name: "Product",
     components:{
      "MyProduct":asyncProduct
@@ -59,6 +59,6 @@ export default {
     created() {
         this.$store.commit("startNav");
     },
-}
+})
 </script>
 <style scoped></style>

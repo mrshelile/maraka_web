@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import './index.css'
 import 'flowbite'
-
+// import cookie from './cookie/cookie';
 import App from './App.vue'
 // import 'vue-router'
 import Routes from './Routes/Routes'

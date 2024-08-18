@@ -1,6 +1,8 @@
-import {server,bannersUrl,productsUrl} from '../../boot/server'
+import {server,bannersUrl,productsUrl,viewerUrl} from '../../boot/server'
 import axios from 'axios';
-import Iproduct from '../../interfaces/Iproduct';
+import {Iproduct} from '../../interfaces/Iproduct';
+import * as CryptoJS from 'crypto-js'
+
 async function getBanners(isHome:boolean):Promise<any> {
    try {
     const bannersResponse = await axios.get(`${server+bannersUrl}`);
@@ -52,12 +54,31 @@ async function fetchProducts():Promise<Array<Iproduct>>{
         return products;
     }
     else{
-        return null;
+        return [] as Iproduct[];;
     }
  } catch (error) {
     
-    return null;
+    return [] as Iproduct[];
  }
+}
+async function createProductViews(product:number,data:any){
+   try {
+  
+    let digest =CryptoJS.SHA256(CryptoJS.enc.Hex.parse(data)).toString(CryptoJS.enc.Hex);
+    var sendData:any = {"veiwer_hash": digest.toString(), "product": product};
+    // alert(data)
+    
+    const res= await axios.get(server+viewerUrl+"?search="+digest.toString());
+   
+    if (res.status==200) {
+        
+    } else {
+        
+    }
+   } catch (error) {
+      console.log("error",error)
+      return {}
+   }
 }
 async function  getProductViews(product:number):Promise<number>{
     let res =await axios.get(server+"/product-viewer"+"?populate=*");
@@ -99,8 +120,8 @@ async function extractProductData(product_id:number):Promise<any> {
         ];
         sensitiveFields.forEach(field => delete owner[field]);
         
-        let product:IProduct = {...res.data};
-        let displays=[]
+        let product:Iproduct = {...res.data};
+        let displays:any[]=[]
         product.display.forEach((element:any) => {
            displays.push({'src':element['image'],'alt':[product.created]})
          });
@@ -121,4 +142,4 @@ async function extractProductData(product_id:number):Promise<any> {
   }
  
 }
-export  {getBanners,fetchProducts,extractProductData}
+export  {getBanners,fetchProducts,extractProductData,createProductViews}
