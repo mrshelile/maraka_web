@@ -7,7 +7,6 @@ import {getBanners,fetchProducts} from '../../utils/data/getData';
 import LoadingComponetVue from '../../components/LoadingComponet.vue';
 import ErrorComponetVue from '../../components/ErrorComponet.vue';
 
-
 const banners = ref([]); 
 const products = ref([]);
 const asyncMyMarket =defineAsyncComponent({
@@ -18,8 +17,8 @@ const asyncMyMarket =defineAsyncComponent({
         // console.log(products.value);
         return import('./components/MyMarket.vue');
     }),
-    delay: 200,
-    timeout: 3000,
+    delay: 600,
+    timeout: 10000,
     errorComponent: ErrorComponetVue,
     loadingComponent: LoadingComponetVue
     });

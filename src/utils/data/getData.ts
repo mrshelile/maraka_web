@@ -59,4 +59,66 @@ async function fetchProducts():Promise<Array<Iproduct>>{
     return null;
  }
 }
-export  {getBanners,fetchProducts}
+async function  getProductViews(product:number):Promise<number>{
+    let res =await axios.get(server+"/product-viewer"+"?populate=*");
+    let cnt:number=0;
+    
+    if (res.status==200) {
+       for (let index = 0; index < res.data.length; index++) {
+        const element = res.data[index];
+        if (element['product']===product) {
+            cnt++;
+        }
+        
+       }   
+    }
+    return cnt;
+}
+
+async function extractProductData(product_id:number):Promise<any> {
+ 
+  try {
+    let res = await axios.get(server+productsUrl+"/"+product_id);
+    let res1 = await getProductViews(product_id);
+    
+    if (res.status==200){
+        
+        let user = await axios.get(res.data.owner.toString());
+        if (user.status!=200) {
+            console.log("failed")
+            return {};
+        }
+    
+        let owner={...user.data};
+        
+                // Remove sensitive data from owner object
+        const sensitiveFields = [
+            'password', 'last_login', 'is_reset_password', 'user_permissions', 
+            'groups', 'validated', 'is_superuser', 'is_active', 
+            'id', 'is_staff', 'date_joined', 'otp', 'username'
+        ];
+        sensitiveFields.forEach(field => delete owner[field]);
+        
+        let product:IProduct = {...res.data};
+        let displays=[]
+        product.display.forEach((element:any) => {
+           displays.push({'src':element['image'],'alt':[product.created]})
+         });
+         
+         return {
+            product:product,
+            viewers:res1,
+            displays:displays
+        }
+    }
+    else{
+        console.log("failed");
+        return {};
+    }
+  } catch (error) {
+    console.log(error)
+    return {}
+  }
+ 
+}
+export  {getBanners,fetchProducts,extractProductData}

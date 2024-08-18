@@ -38,11 +38,11 @@
       
             
             <div v-else class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-                <router-link :to="{ name: 'product', params: { id: product.id }, }" class="group relative" v-for="product in current_products" :key="product.id">
+                <a :href='`/ads-page/${product.id}`' class="group relative" v-for="product in current_products" :key="product.id">
                     <div
                         class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-                        <img :src="product.display[0]['image']"
-                            :alt="product.name"
+                        <img :src="Object(product.display)[0]['image']"
+                            :alt="product.name.toString()"
                             class="h-full w-full object-cover object-center lg:h-full lg:w-full">
                     </div>
                     <div class="mt-4 ">
@@ -50,7 +50,8 @@
                             <h3 class="text-sm text-gray-700">
                                 <a  v-if="product.category=='cars'">
                                     <span aria-hidden="true" class="absolute inset-0"></span>
-                                    {{ product.car.year +" "+product.car.model + " "+ product.car.make }}
+                                    {{ Object(product.car).year +" "+Object(product.car).model + " "
+                                    + Object(product.car).make }}
                                 </a>
                                 <a  v-else>
                                     <span aria-hidden="true" class="absolute inset-0"></span>
@@ -63,7 +64,7 @@
                         </div>
                         <p class="text-sm font-medium text-gray-900">M{{ product.price }}</p>
                     </div>
-                </router-link>
+                </a>
 
                 <!-- More products... -->
             </div>
@@ -91,6 +92,7 @@ export default {
       }
   },
   methods: {
+    
     changeCategory(category:any){
         this.current_products =[];
      this.current_category=category;

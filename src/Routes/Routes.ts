@@ -8,7 +8,7 @@ import ForgotPassword from "../pages/auth/ForgotPassword.vue";
 import ResetPassword from "../pages/auth/ResetPassword.vue";
 import Home from '../pages/Home/Home.vue';
 import About from '../pages/about/About.vue'
-import Product from '../pages/market/components/Product.vue'
+import Product from '../pages/market/Product.vue'
 import Market from '../pages/market/Market.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import MyAdsVue from "../pages/MyAds/MyAds.vue";

@@ -140,27 +140,32 @@
         </div>
     </section>
 </template>
-<script lang="ts">
+<script lang="ts" scoped >
 import 'flowbite'
-import { Iproduct } from '../interfaces/Iproduct';
-import {server} from '../../../boot/server';
-import axios from 'axios';
+import { Iproduct } from '../../../interfaces/Iproduct';
 import placeholder from '../../../assets/business.svg?url';
 import { FwbCarousel } from 'flowbite-vue'
+
 export default {
-    name: "Product",
+    name: "MyProduct",
     components:{
         FwbCarousel,
+    },
+    props: {
+        data:{
+            type:Object,
+            required:true
+        }
     },
     data() {
         return {
             pictures:[
             {src: placeholder, alt: 'placeholder'},
             ],
-            displays:[] as any[],
+            displays:this.$props.data['displays']??[],
             isValid:true,
-            product:{} as Iproduct,
-            viewers:0,
+            product:this.$props.data['product']??{} as Iproduct,
+            viewers:this.$props.data['viewers']??0 ,
             deposit:0,
             months:0,
             owner:{}  as any
@@ -186,63 +191,10 @@ export default {
             }
         },
 
-        
-        async getProductViews(product:number):Promise<number>{
-            let res =await axios.get(server+"/product-viewer"+"?populate=*");
-            let cnt:number=0;
-            
-            if (res.status==200) {
-               for (let index = 0; index < res.data.length; index++) {
-                const element = res.data[index];
-                if (element['product']===product) {
-                    cnt++;
-                }
-                
-               }   
-            }
-            return cnt;
-        },
-
-        async extractData(){
-            
-            let product_id:number = Number(this.$route.params.id);
-            let res = await axios.get(server+"/product/"+product_id);
-            let res1 = await this.getProductViews(product_id);
-            
-            if (res.status==200){
-                
-                let user = await axios.get(res.data.owner.toString());
-                if (user.status!=200) {
-                    return;
-                }
-                this.owner={...user.data};
-                delete this.owner['password'];
-                delete this.owner['last_login'];
-                delete this.owner['is_reset_password'];
-                delete this.owner['user_permissions'];
-                delete this.owner['groups'];
-                delete this.owner['validated'];
-                delete this.owner['is_superuser'];
-                delete this.owner['is_active'];
-                delete this.owner['id'];
-                delete this.owner['is_staff'];
-                delete this.owner['date_joined'];
-                delete this.owner['otp'];
-                delete this.owner['username']
-                // console.log(this.owner);
-                this.product = {...res.data};
-                 this.viewers=res1;  
-                 this.product.display.forEach((element:any) => {
-              
-                    this.displays.push({'src':element['image'],'alt':[this.product.created]})
-                 });
-            }
-         
-            // console.log(this.product)
-        }
+       
     },
     mounted() {
-         this.extractData();
+        
     },
 }
 </script>
