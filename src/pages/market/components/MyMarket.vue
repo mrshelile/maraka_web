@@ -2,8 +2,8 @@
     <div>
         <!-- {{ this.$props.banners }}
         {{ this.$props.products }} -->
-        <Banner :banners="this.$props.banners"/>
-        <ProductList :data="this.$props.products"/>
+        <Banner :banners="$props.banners"/>
+        <ProductList :data="$props.products"/>
         <MyAdsButton v-if="$store.state.isLogin"/>
     </div>
 </template>

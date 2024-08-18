@@ -55,7 +55,7 @@ export default {
 
             </div>
            
-            <fwb-carousel :pictures="this.$props.banners" class="lg:mt-0 lg:col-span-5" />
+            <fwb-carousel :pictures="$props.banners" class="lg:mt-0 lg:col-span-5" />
         </div>
     </section>
 </template>

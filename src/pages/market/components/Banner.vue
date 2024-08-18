@@ -2,7 +2,7 @@
      <!-- <div v-if="banners.length==0" class="w-screen h-72">
          <img :src="pictures[0]['src']" :alt="pictures[0]['alt']" class="object-cover h-full w-full"/>
      </div> -->
-    <fwb-carousel :pictures="this.$props.banners" />
+    <fwb-carousel :pictures="$props.banners" />
 </template>
 <script lang="ts">
 import { FwbCarousel } from 'flowbite-vue'
@@ -13,7 +13,7 @@ export default {
         banners:{
             type:[],
             required:true
-        }
+        } as any
     },
     components:{
         FwbCarousel,

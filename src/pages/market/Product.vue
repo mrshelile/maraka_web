@@ -9,11 +9,11 @@ import LoadingComponetVue from '../../components/LoadingComponet.vue';
 import ErrorComponetVue from '../../components/ErrorComponet.vue';
 
 const product= ref({});
-let pathname={};
+let pathname:string ='';
 let id=0;
 try {
      pathname = Object(window.location.pathname);
-     id = Number(pathname.match(/\/(\d+)$/)[1]); // Extract the last part of the path that matches one or more digits
+     id = Number(Object(pathname).match(/\/(\d+)$/)[1]); // Extract the last part of the path that matches one or more digits
 
 } catch (error) {
     
