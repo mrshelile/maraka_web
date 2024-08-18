@@ -1,6 +1,6 @@
 <script  lang="ts">
 import axios from 'axios';
-import server  from "../../boot/server";
+import {server}  from "../../boot/server";
 export default {
   name:"Login",
 

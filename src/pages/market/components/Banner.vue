@@ -6,7 +6,7 @@
 </template>
 <script lang="ts">
 import axios from 'axios';
-import server from '../../../boot/server';
+import {server} from '../../../boot/server';
 import { FwbCarousel } from 'flowbite-vue'
 import buyandsell from '../../../assets/business.svg?url'
 export default {

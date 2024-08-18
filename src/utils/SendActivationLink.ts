@@ -1,5 +1,5 @@
 import axios from 'axios';
-import server  from "../boot/server";
+import {server}  from "../boot/server";
 export async function sendActivationLink(email:string,otpHashed:string,
     emailHashed:string,serverIp:string){
     let message: string = `

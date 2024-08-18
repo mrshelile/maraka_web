@@ -23,7 +23,7 @@
                             <h3 class="text-sm text-gray-700">
                                 <a  v-if="product.category=='cars'">
                                     <span aria-hidden="true" class="absolute inset-0"></span>
-                                    {{ product.car.year +" "+product.car.model + " "+ product.car.make }}
+                                    {{ product['car'].year +" "+product.car.model + " "+ product.car.make }}
                                 </a>
                                 <a  v-else>
                                     <span aria-hidden="true" class="absolute inset-0"></span>
@@ -44,7 +44,7 @@
 <script lang="ts">
 import axios from 'axios';
 import { Iproduct } from '../../market/interfaces/Iproduct';
-import server from '../../../boot/server';
+import {server} from '../../../boot/server';
 
 export default {
     name:"MyProductsList",

@@ -58,7 +58,7 @@
 
 <script lang="ts">
 import axios from 'axios';
-import server from '../../boot/server';
+import {server} from '../../boot/server';
 import generateOTP from '../../utils/OTPGenerator';
 import {encrypt,decrypt} from "../../utils/Encryption"
 import {sendActivationLink} from "../../utils/SendActivationLink";

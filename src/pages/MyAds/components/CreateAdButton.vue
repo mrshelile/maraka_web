@@ -161,7 +161,7 @@
 </template>
 <script lang="ts">
 import corouselPlaceHolder from '../../../assets/upload.png'
-import server from '../../../boot/server';
+import {server} from '../../../boot/server';
 export default{
     name:'CreateAdButton',
     data() {

@@ -143,7 +143,7 @@
 <script lang="ts">
 import 'flowbite'
 import { Iproduct } from '../interfaces/Iproduct';
-import server from '../../../boot/server';
+import {server} from '../../../boot/server';
 import axios from 'axios';
 import placeholder from '../../../assets/business.svg?url';
 import { FwbCarousel } from 'flowbite-vue'

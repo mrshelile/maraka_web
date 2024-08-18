@@ -1,106 +1,56 @@
 <script lang="ts">
-import buyandsell from '../../../src/assets/buy.svg?url'
-import { FwbCarousel } from 'flowbite-vue'
-import axios from 'axios';
-import server from '../../boot/server';
+
+import LoadingComponetVue from '../../components/LoadingComponet.vue';
+import ErrorComponetVue from '../../components/ErrorComponet.vue';
+import { defineAsyncComponent, ref } from 'vue';
+import {getBanners} from '../../utils/data/getData';
+const banners = ref([]); 
+const asyncMyHome =defineAsyncComponent({
+  loader: () => getBanners().then((data)=>
+{   
+    banners.value=data;
+    return import('./components/MyHome.vue')
+}),
+  delay: 200,
+  timeout: 3000,
+  errorComponent: ErrorComponetVue,
+  loadingComponent: LoadingComponetVue
+})
+
 export default {
     name: "Home",
     data(vm:any) {
         return{
-            buyandsell:buyandsell,
-            banners:[] as any[]
+        
         }
     },
     methods: {
-        async fetchBanners(){
-            
-            try {
-            // Assume you have the banners response from the initial axios.get() call
-        const bannersResponse = await axios.get(`${server}/banners`);
-
-        // Extract the banners array from the response
-        const banners = bannersResponse.data;
-
-        // Filter out banners where splashscreen is false
-
-        const filteredBanners = banners.filter((banner:any) => banner.home);
-
-        // console.log(filteredBanners);
-        // Create an array of promises to fetch the sub-data for each banner
-        const promises = filteredBanners.map((banner:any) => {
-        // Fetch the sub-data for each banner using axios.get()
-        return axios.get(banner.display);
-        });
-        
-        // Use Promise.all() to wait for all promises to resolve
-        const subDataResponses = await Promise.all(promises);
-
-        // Map the sub-data responses to the corresponding banners
-        this.banners= filteredBanners.map((banner:any, index:any) => {
-        // Get the sub-data response for the current banner
-        const subDataResponse = subDataResponses[index];
-
-        // Extract the sub-data from the response
-        const subData = subDataResponse.data;
-
-        // Return the banner with the sub-data
-        return {'alt':banner['owner'],'src': subData['image'] };
-        });
-   
-        } catch (error) {
-            
-          }
-        
-
-        }        
+             
     },
     components:{
-        FwbCarousel,
+        'MyHome': asyncMyHome,
+       
     },
-    mounted() {
-        this.fetchBanners();
+   async mounted() {
+        // this.fetchBanners();
+        // console.log(await getBanners())
         this.$store.commit("startNav");
     },
     created() {
         this.$store.commit("startNav");
         // console.log(this.$store.state.isNavigation);  
     },
+    setup(){
+
+        return {
+            banners
+        }
+    }
 }
 </script>
 
 <template>
-
-    <section class="bg-white dark:bg-gray-900">
-        <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
-            <div class="mr-auto place-self-center lg:col-span-7">
-                <h1 class="max-w-2xl mb-4 text-4xl font-extrabold leading-none md:text-5xl xl:text-6xl dark:text-white">
-                    <span class="text-amber-700">The</span> Fastest Growing Global <span
-                        class="text-cyan-700">Marketplace</span>
-                </h1>
-                <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">Your
-                    Ultimate Car Destination. <span class="text-teal-700"> Discover a diverse range of cars and
-                        products</span> .Download our app for a seamless car shopping experience. Find your dream car with
-                    <span class=" text-sky-900">Maraka</span> today!.
-                </p>
-                <router-link :to="{ name: 'market' }"
-                    class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
-                    Get Started
-                    <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                </router-link>
-
-            </div>
-            <div v-if="banners.length==0" class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-                <img :src="buyandsell" alt="buyandsell">
-                
-            </div>
-            <fwb-carousel v-else :pictures="banners" class="lg:mt-0 lg:col-span-5" />
-        </div>
-    </section>
+    <MyHome :banners="banners" />
 </template>
 
 <style scoped>

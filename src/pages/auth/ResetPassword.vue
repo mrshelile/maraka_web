@@ -1,6 +1,6 @@
 <script  lang="ts">
 import axios from 'axios';
-import server  from "../../boot/server";
+import {server}  from "../../boot/server";
 import { decrypt } from '../../utils/Encryption';
 export default {
   name:"ResetAccount",

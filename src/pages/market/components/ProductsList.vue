@@ -73,7 +73,7 @@
 <script lang="ts">
 import axios from 'axios';
 import { Iproduct } from '../interfaces/Iproduct';
-import server from '../../../boot/server';
+import {server} from '../../../boot/server';
 
 export default {
     name: "ProductList",
