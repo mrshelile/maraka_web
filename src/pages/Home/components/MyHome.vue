@@ -7,9 +7,8 @@ export default defineComponent({
         banners:{
             type:Array,
             required:true,
-            
-        },
-        
+           
+        },        
     },
     data(vm:any) {
         return{
