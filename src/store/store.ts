@@ -23,5 +23,8 @@ export var store = createStore({
         startNav(state) {
             state.isNavigation = true;
         }
-    }
+    },
+    getters: {
+        isLogin: (state) => state.isLogin,
+    },
 })
