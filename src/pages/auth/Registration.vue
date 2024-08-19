@@ -16,7 +16,7 @@
       </h3>
       <form class="px-3 flex flex-col justify-center items-center w-full gap-3" @submit="register">
         <input type="text" placeholder="Full Names.." v-model="full_names" required
-          class="px-4 py-2 w-full rounde axios.post(server+'/auth/login/',body)d-2xl border border-gray-500 shadow-sm text-base placeholder-gray-600 placeholder-opacity-100 focus:outline-none focus:border-blue-500">
+          class="px-4 py-2 w-full rounded-2xl border border-gray-500 shadow-sm text-base placeholder-gray-600 placeholder-opacity-100 focus:outline-none focus:border-blue-500">
         <input type="email" placeholder="email.." v-model="email" required
           class="px-4 py-2 w-full rounded-2xl border border-gray-500 shadow-sm text-base placeholder-gray-600 placeholder-opacity-100 focus:outline-none focus:border-blue-500">
         <input  placeholder="Phone Number.." v-model="phone1" required
@@ -54,6 +54,27 @@
       </p>
     </div>
   </div>
+    <!-- loader -->
+<div class="w-full h-full fixed top-0 left-0 bg-white opacity-75 z-50" v-if="isLoading">
+  <div class="flex justify-center items-center mt-[50vh]">
+    <div class="fas fa-circle-notch fa-spin fa-5x text-cyan-500"></div>
+  </div>
+</div>
+<div id="toast-danger" class="fixed top-10 left-1/2 -translate-x-1/2 flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 z-50" role="alert" v-if="error">
+    <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
+        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/>
+        </svg>
+        <span class="sr-only">Error icon</span>
+    </div>
+    <div class="ms-3 text-sm font-normal">{{ error }}</div>
+    <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-danger" @click="()=>error=''" aria-label="Close">
+        <span class="sr-only">Close</span>
+        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+        </svg>
+    </button>
+</div>
 </template>
 
 <script lang="ts">
@@ -71,6 +92,8 @@ export default{
         phone1:"",
         password:"",
         repassword:"",
+        isLoading:false,
+        error:""
       }
   },
   mounted() {
@@ -97,24 +120,35 @@ export default{
         is_superuser:false,
         password:this.password
       };
+      this.error='';
+      this.isLoading=true;
       try {
         let res=await axios.post(server+"/auth_user",body);
         if (res.status==201) {
           try {
-            let res= await  sendActivationLink(this.email,encrypt(otp.toString()),
+            let res:any= await  sendActivationLink(this.email,encrypt(otp.toString()),
             encrypt(this.email),serverIp);
              if (res.status===200) {
+              this.isLoading =false;
                this.$router.replace({name:"accountRegistered"})
              }
           } catch (error) {
-          console.log(error); 
+            this.isLoading =false;
+            this.error ="We're sorry, but your registration was not successful. "+
+        "Please review the information you provided and try again. "+
+        "If you're still having trouble, please contact our support team for help."  ; 
           }
         }
       } catch (error) {
-       console.log(error);     
+        this.isLoading = false;
+        this.error ="We're sorry, but your registration was not successful. "+
+        "Please review the information you provided and try again. "+
+        "If you're still having trouble, please contact our support team for help."   
       }
       } else {
-        console.log("Password do not match");
+        this.isLoading =false;
+       this.error ="Password mismatch detected. "+
+       "Please re-enter your password and confirm password to ensure accuracy and security."
       }
     }
   },

@@ -85,6 +85,13 @@ export default {
         </button>
       </form>
       <p class="text-gray-700 text-sm mt-2">
+      
+        <router-link :to="{ name: 'forgotPassword' }"
+          class="text-green-500 hover:text-amber-600 mt-3 focus:outline-none font-bold underline">
+          Forgot password?
+        </router-link>
+      </p>
+      <p class="text-gray-700 text-sm mt-2">
         don't have an account?
         <router-link :to="{ name: 'register' }"
           class="text-green-500 hover:text-amber-600 mt-3 focus:outline-none font-bold underline">
@@ -92,6 +99,7 @@ export default {
         </router-link>
       </p>
       <p class="text-gray-700 text-sm mt-2">
+        
       
         <router-link :to="{ name: 'index' }"
           class="text-green-500 hover:text-amber-600 mt-3 focus:outline-none font-bold underline">

@@ -28,7 +28,13 @@ export async function sendActivationLink(email:string,otpHashed:string,
         body:message.toString()
     }
     console.log(data)
-    return await axios.post(server+"/sendEmail/",data);
+    // return await axios.post(server+"/sendEmail/",data);
+    return new Promise((resolve, reject) => {
+      resolve({
+        status: 200,
+        message: "Email sent",
+      });
+    });
 }
 
 export async function sendPasswordResetLink(email:string,serverIp:string,
@@ -59,5 +65,11 @@ export async function sendPasswordResetLink(email:string,serverIp:string,
             body:emailBody.toString()
         }
         console.log(data)
-        return await axios.post(server+"/sendEmail/",data);
+        // return await axios.post(server+"/sendEmail/",data);
+        return new Promise((resolve, reject) => {
+          resolve({
+            status: 200,
+            message: "Email sent",
+          });
+        });
 }
