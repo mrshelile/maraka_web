@@ -1,5 +1,5 @@
 <template>
-  <MyProduct :data="product"/>
+  <MyProduct v-if="product" :data="product"/>
 </template>
 <script lang="ts" scoped>
 import 'flowbite'
@@ -8,68 +8,48 @@ import {extractProductData} from '../../utils/data/getData';
 import LoadingComponetVue from '../../components/LoadingComponet.vue';
 import ErrorComponetVue from '../../components/ErrorComponet.vue';
 
-// const product = ref({});
-let pathname:string ='';
-let id=0;
-try {
-     pathname = Object(window.location.pathname);
-     id = Number(Object(pathname).match(/\/(\d+)$/)[1]); // Extract the last part of the path that matches one or more digits
-
-} catch (error) {
-    
-}
-
-// const asyncProduct =defineAsyncComponent({
-//   loader: () => extractProductData(id).then(async (data:any)=>
-//     {  
-//         if (!data || Object.keys(data).length === 0) {
-//         // Bounce back when there is no data
-//         return Promise.reject('No product data available');
-//         }
-//         product.value= data;
-//         // console.log(data);
-//         return import('./components/MyProduct.vue');
-//     }),
-//     delay: 1000,
-//     timeout: 3000,
-//     errorComponent: ErrorComponetVue,
-//     loadingComponent: LoadingComponetVue
-//     });
 export default defineComponent({
     name: "Product",
-    components: {
-    asyncProduct: defineAsyncComponent({
-      loader: () => extractProductData(id).then(async (data: any) => {
-        if (!data || Object.keys(data).length === 0) {
-          // Bounce back when there is no data
-          return Promise.reject('No product data available');
-        }
-        Object(this).product = data; // Update the product property
-        return import('./components/MyProduct.vue');
-      }),
-      delay: 1000,
-      timeout: 3000,
-      errorComponent: ErrorComponetVue,
-      loadingComponent: LoadingComponetVue,
-    }),
-  },
+    components:{
+     "MyProduct":defineAsyncComponent({
+    loader: async() => 
+        {   
+            let pathname:string ='';
+            let id=0;
+            try {
+                pathname = Object(window.location.pathname);
+                id = Number(Object(pathname).match(/\/(\d+)$/)[1]); // Extract the last part of the path that matches one or more digits
+
+            } catch (error) {
+                
+            }
+            await extractProductData(id);
+            return import('./components/MyProduct.vue');
+            
+        },
+        delay: 1000,
+        timeout: 3000,
+        errorComponent: ErrorComponetVue,
+        loadingComponent: LoadingComponetVue
+        })
+        },
     data() {
         return {
-          product:[] 
-        }
-    },
-    setup(){
-        return{
-       
+            product:[]
         }
     },
     methods: {
         
     },
-    mounted() {
+   async mounted() {
+        let id:number = Number.parseInt(this.$route.params.id.toString())
+        this.product = await extractProductData(id);
         this.$store.commit("startNav");
     },
-    created() {
+    async created() {
+        let id:number = Number.parseInt(this.$route.params.id.toString())
+        this.product = await extractProductData(id);
+        // console.log(this.product)
         this.$store.commit("startNav");
     },
 })

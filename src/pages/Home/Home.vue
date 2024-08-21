@@ -6,39 +6,37 @@ import { defineAsyncComponent, ref } from 'vue';
 import {getBanners} from '../../utils/data/getData';
 import {v4 as uuidv4} from 'uuid';
 
-const banners = ref([]); 
-const asyncMyHome =defineAsyncComponent({
-  loader: () => getBanners(true).then((data)=>
-{   
-    banners.value=data;
-    return import('./components/MyHome.vue')
-}),
-  delay: 200,
-  timeout: 3000,
-  errorComponent: ErrorComponetVue,
-  loadingComponent: LoadingComponetVue,
-  
-});
-
 export default {
     name: "Home",
-    data(vm:any) {
-        return{
-        
-        }
-    },
-    methods: {
-             
-    },
     components:{
-        'MyHome': asyncMyHome,
+        'MyHome': defineAsyncComponent({
+        loader: async() =>
+        {   await getBanners(true);
+            return import('./components/MyHome.vue')
+        },
+        delay: 1000,
+        timeout: 3000,
+        errorComponent: LoadingComponetVue,
+        loadingComponent: LoadingComponetVue,
+        
+        }),
        
     },
+    data() {
+        return{
+            banners:[]
+        }
+    },
+    setup() {
+       
+    },
+
    async mounted() {
         
         this.$store.commit("startNav");
     },
-    created() {
+    async created() {
+        this.banners =await getBanners(true);
         let myuuid = uuidv4();
 
         if(!localStorage.getItem("viewer"))
@@ -50,17 +48,12 @@ export default {
         this.$store.commit("startNav");
         // console.log(this.$store.state.isNavigation);  
     },
-    setup(){
-
-        return {
-            banners
-        }
-        
-    }
+    
 }
 </script>
 
 <template>
+    
     <MyHome  :banners="banners" />
 </template>
 
