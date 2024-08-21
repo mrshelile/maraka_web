@@ -11,6 +11,7 @@ export default{
     name:"MyAds",
     mounted() {
         this.$store.commit("startNav");
+        // console.log(this.$store.state.isLogin)
     },
     created() {
         this.$store.commit("startNav");

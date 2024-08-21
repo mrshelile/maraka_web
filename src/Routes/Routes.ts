@@ -13,6 +13,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import MyAdsVue from "../pages/MyAds/MyAds.vue";
 
 
+
 export default createRouter({
     history: createWebHistory(),
     routes: [
@@ -31,6 +32,7 @@ export default createRouter({
             path: "/ads-page",
             component: Market,
             name: "market",
+           
 
         }, 
 
@@ -42,7 +44,14 @@ export default createRouter({
         {
             path:"/my-Ads",
             component:MyAdsVue,
-            name:"Myads"
+            name:"Myads",
+            beforeEnter:(to:any,from:any)=>{
+                const user:any = localStorage.getItem("email");
+                if(user==null){
+                    return {name:"index"}
+                }
+                return true
+            }
         }
         ,
         {
@@ -53,7 +62,14 @@ export default createRouter({
                 {
                     path: "login",
                     component: LoginVue,
-                    name: "login"
+                    name: "login",
+                    beforeEnter:(to:any,from:any)=>{
+                        const user:any = localStorage.getItem("email");
+                        if(user!=null){
+                            return {name:"index"}
+                        }
+                        return true
+                    }
                 },
                 {
                     path: "forgot-password",
@@ -68,7 +84,14 @@ export default createRouter({
                 {
                     path: "register",
                     component: RegistrationVue,
-                    name: "register"
+                    name: "register",
+                    beforeEnter:(to:any,from:any)=>{
+                        const user:any = localStorage.getItem("email");
+                        if(user!=null){
+                            return {name:"index"}
+                        }
+                        return true
+                    }
                 },
                 {
                     path:'activate-account/:email/:otp',

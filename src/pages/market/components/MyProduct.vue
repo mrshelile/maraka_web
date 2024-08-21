@@ -146,18 +146,13 @@ import { Iproduct } from '../../../interfaces/Iproduct';
 import placeholder from '../../../assets/business.svg?url';
 import { FwbCarousel } from 'flowbite-vue'
 
+
 export default {
     name: "MyProduct",
     components:{
         FwbCarousel,
     },
-    props:{
-        data: {
-        type: Object,
-        required: true,
-        default:{}
-        }
-    },
+    props:['data'],
     data() {
         return {
             pictures:[

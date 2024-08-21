@@ -8,7 +8,7 @@ import {extractProductData} from '../../utils/data/getData';
 import LoadingComponetVue from '../../components/LoadingComponet.vue';
 import ErrorComponetVue from '../../components/ErrorComponet.vue';
 
-const product= ref({});
+// const product = ref({});
 let pathname:string ='';
 let id=0;
 try {
@@ -19,35 +19,48 @@ try {
     
 }
 
-const asyncProduct =defineAsyncComponent({
-  loader: () => extractProductData(id).then(async (data)=>
-    {  
-        if (!data || Object.keys(data).length === 0) {
-        // Bounce back when there is no data
-        return Promise.reject('No product data available');
-        }
-        product.value= data;
-        // console.log(data);
-        return import('./components/MyProduct.vue');
-    }),
-    delay: 1000,
-    timeout: 10000,
-    errorComponent: ErrorComponetVue,
-    loadingComponent: LoadingComponetVue
-    });
+// const asyncProduct =defineAsyncComponent({
+//   loader: () => extractProductData(id).then(async (data:any)=>
+//     {  
+//         if (!data || Object.keys(data).length === 0) {
+//         // Bounce back when there is no data
+//         return Promise.reject('No product data available');
+//         }
+//         product.value= data;
+//         // console.log(data);
+//         return import('./components/MyProduct.vue');
+//     }),
+//     delay: 1000,
+//     timeout: 3000,
+//     errorComponent: ErrorComponetVue,
+//     loadingComponent: LoadingComponetVue
+//     });
 export default defineComponent({
     name: "Product",
-    components:{
-     "MyProduct":asyncProduct
-    },
+    components: {
+    asyncProduct: defineAsyncComponent({
+      loader: () => extractProductData(id).then(async (data: any) => {
+        if (!data || Object.keys(data).length === 0) {
+          // Bounce back when there is no data
+          return Promise.reject('No product data available');
+        }
+        Object(this).product = data; // Update the product property
+        return import('./components/MyProduct.vue');
+      }),
+      delay: 1000,
+      timeout: 3000,
+      errorComponent: ErrorComponetVue,
+      loadingComponent: LoadingComponetVue,
+    }),
+  },
     data() {
         return {
-            product
+          product:[] 
         }
     },
     setup(){
         return{
-
+       
         }
     },
     methods: {
