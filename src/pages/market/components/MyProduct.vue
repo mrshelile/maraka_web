@@ -140,11 +140,12 @@
         </div>
     </section>
 </template>
-<script lang="ts" scoped >
+<script lang="ts" scoped>
 import 'flowbite'
 import { Iproduct } from '../../../interfaces/Iproduct';
 import placeholder from '../../../assets/business.svg?url';
 import { FwbCarousel } from 'flowbite-vue'
+import { createProductViews } from '../../../utils/data/getData';
 
 
 export default {
@@ -189,9 +190,12 @@ export default {
 
        
     },
-    mounted() {
-        
+    async mounted() {
+        const id = this.$route.params.id;
+        // console.log(id)
+       await createProductViews(Number(id),"sdds")
     },
+    async created(){}
 }
 </script>
 <style scoped></style>

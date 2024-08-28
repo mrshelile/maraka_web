@@ -29,7 +29,7 @@ export default defineComponent({
         },
         delay: 1000,
         timeout: 3000,
-        errorComponent: ErrorComponetVue,
+        errorComponent: LoadingComponetVue,
         loadingComponent: LoadingComponetVue
         })
         },

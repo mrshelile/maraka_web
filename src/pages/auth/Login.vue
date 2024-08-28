@@ -24,7 +24,7 @@ export default {
      this.isLoading=true;
      axios.post(server+'/auth/login/',body)
      .then(response=>{
-      console.log(response);
+     
       localStorage.setItem('token',response.data.token);
       localStorage.setItem('email',response.data.user.email);
        if (response.status==200) {

@@ -11,7 +11,7 @@ export default {
     name: "Banner",
     props:{
         banners:{
-            type:[],
+            type:Array<any>,
             required:true
         } as any
     },

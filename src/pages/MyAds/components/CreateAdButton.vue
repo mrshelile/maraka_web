@@ -157,15 +157,25 @@
         </div>
     </div>
 </div> 
+ <!-- loader -->
+ <div class="w-full h-full fixed top-0 left-0 bg-white opacity-75 z-50" v-if="isLoading">
+  <div class="flex justify-center items-center mt-[50vh]">
+    <div class="fas fa-circle-notch fa-spin fa-5x text-cyan-500"></div>
+  </div>
+</div>
 
 </template>
 <script lang="ts">
+import axios from 'axios';
 import corouselPlaceHolder from '../../../assets/upload.png'
-import {server} from '../../../boot/server';
+import {carCreate, productCreate, server} from '../../../boot/server';
+import {v4 as uuidv4} from 'uuid';
 export default{
     name:'CreateAdButton',
     data() {
         return{
+            isLoading:false,
+            error:"",
             isCar:false,
             name:'',
             price:0.0,
@@ -211,20 +221,56 @@ export default{
         return res;
     },
     async createProduct(event:Event){
-        event.preventDefault();
+      event.preventDefault();
       let imgs =[];
       try {
+        const id = localStorage.getItem('id')?.toString();
+        this.error ='';
+        this.isLoading=true;
         for (let index = 0; index < this.uploadFiles.length; index++) {
             // const element = this.uploadFiles[index];
             const im =await (await this.postImages(index)).json();
-            imgs.push(im.id);
-            
+            imgs.push(im.id); 
+        }
+        const currentDate = new Date(Date.now());
+        const threeMonthsLater = new Date(currentDate.setMonth(currentDate.getMonth() + 3));
+        let myuuid = uuidv4();
+        let body:any = {
+                price:this.price,
+                category:this.categories.toLocaleLowerCase(),
+                description: this.description,
+                owner:id,
+                display:imgs,
+                name:this.name,
+                identifier:myuuid,
+                expire_date:threeMonthsLater
+            }
+        // alert(this.categories)
+        if (this.categories.toLocaleLowerCase()=='cars') {
+           const car ={
+            "model": this.model,
+            "make": this.make,
+            "year": this.year,
+            "fuel": this.fuel,
+            "kilos": this.mileage,
+            "transmission": this.transimission
+            };
+            const carRes = await axios.post(server+carCreate,car)
+            body['car'] = carRes.data.id
+        } 
+        const res = await axios.post(server+productCreate,body)
+        if (res.status==201) {
+            this.isLoading=false;
+            this.error ='';
+            this.$router.back();
         }
        
       } catch (error) {
-        console.log(error);
+            this.isLoading=false;
+            this.error ='Request failed try again later or contact our support team for assistance.';
+        // console.log(error);
       }
-      console.log(imgs);
+    //   console.log(imgs);
     },
     selectImageChange(event: Event) {
         const input = event.target as HTMLInputElement;

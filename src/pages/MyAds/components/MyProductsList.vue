@@ -90,8 +90,8 @@ export default {
       }
     }
   },
-  mounted() {
-    this.fetchMyProducts();
+  async created() {
+   await this.fetchMyProducts();
   },
 }
 </script>

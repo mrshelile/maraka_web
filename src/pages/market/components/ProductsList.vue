@@ -14,7 +14,7 @@
                 <!-- Dropdown menu -->
                 <div id="dropdownMenu" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44
                 dark:bg-gray-700">
-                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" v-for="category in all_categories" :key="category" aria-labelledby="multiLevelDropdownButton">
+                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" v-for="index,category in all_categories" :key="index" aria-labelledby="multiLevelDropdownButton">
                         <li>
                             <a @click="changeCategory(category)"
                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 
@@ -66,7 +66,6 @@
                     </div>
                 </a>
 
-                <!-- More products... -->
             </div>
         </div>
     </div>

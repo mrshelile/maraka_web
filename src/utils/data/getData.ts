@@ -62,23 +62,29 @@ async function fetchProducts():Promise<Array<Iproduct>>{
  }
 }
 async function createProductViews(product:number,data:any){
-   try {
-  
-    let digest =CryptoJS.SHA256(CryptoJS.enc.Hex.parse(data)).toString(CryptoJS.enc.Hex);
-    var sendData:any = {"veiwer_hash": digest.toString(), "product": product};
-    // alert(data)
-    
-    const res= await axios.get(server+viewerUrl+"?search="+digest.toString());
-   
-    if (res.status==200) {
-        
-    } else {
-        
+    try {
+       let digest = CryptoJS.SHA256(CryptoJS.enc.Hex.parse(data)).toString(CryptoJS.enc.Hex);
+       var sendData: any = { "veiwer_hash": digest.toString(), "product": product };
+       const res = await axios.get(server + viewerUrl + "?search=" + digest.toString());
+       
+        if (res.status == 200) {
+            const numbers = [1, 2, 3, 4, 5, 6];
+            const data: Array<any> = res.data;
+            const filter = data.filter((element: any) => {
+                
+                return element.product ==product;
+            });
+            
+            if (filter.length==0) {
+                await axios.post(server + viewerUrl, sendData); 
+            }
+        } else {
+        }
+    } catch (error) {
+        // const res2 = await axios.post(server + viewerUrl, send
+        // console.log("error", error)
+      
     }
-   } catch (error) {
-      console.log("error",error)
-      return {}
-   }
 }
 async function  getProductViews(product:number):Promise<number>{
     let res =await axios.get(server+"/product-viewer"+"?populate=*");
@@ -137,9 +143,10 @@ async function extractProductData(product_id:number):Promise<any> {
         return {};
     }
   } catch (error) {
-    console.log(error)
+    // console.log(error)
     return {}
   }
  
 }
+
 export  {getBanners,fetchProducts,extractProductData,createProductViews}

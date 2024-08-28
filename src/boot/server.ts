@@ -1,5 +1,7 @@
-let server = "https://ntateshelile.pythonanywhere.com/buyandsellDjango-apis";
-let bannersUrl = "/banners";
-let productsUrl = "/product"
-let viewerUrl = "/product-viewer"
-export { server, bannersUrl,productsUrl,viewerUrl };
+const server = "https://ntateshelile.pythonanywhere.com/buyandsellDjango-apis";
+const bannersUrl = "/banners";
+const productsUrl = "/product";
+const productCreate = '/product-create';
+const viewerUrl = "/product-viewer"
+const carCreate = '/car';
+export { server, bannersUrl,productsUrl,viewerUrl,productCreate,carCreate };
