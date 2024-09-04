@@ -193,7 +193,8 @@ export default {
     async mounted() {
         const id = this.$route.params.id;
         // console.log(id)
-       await createProductViews(Number(id),"sdds")
+        let viewer = localStorage.getItem("viewer")??'default';
+       await createProductViews(Number(id),viewer)
     },
     async created(){}
 }

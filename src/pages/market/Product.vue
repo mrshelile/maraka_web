@@ -19,16 +19,17 @@ export default defineComponent({
             try {
                 pathname = Object(window.location.pathname);
                 id = Number(Object(pathname).match(/\/(\d+)$/)[1]); // Extract the last part of the path that matches one or more digits
-
+                console.log(id)
             } catch (error) {
                 
             }
+            
             await extractProductData(id);
             return import('./components/MyProduct.vue');
             
         },
-        delay: 1000,
-        timeout: 3000,
+        delay: 3000,
+        timeout: 6000,
         errorComponent: LoadingComponetVue,
         loadingComponent: LoadingComponetVue
         })
