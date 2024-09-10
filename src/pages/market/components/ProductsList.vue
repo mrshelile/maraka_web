@@ -3,16 +3,16 @@
         <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
             <h2 class="text-2xl font-bold tracking-tight text-gray-900">
 
-                <button id="categoriesMenu" data-dropdown-toggle="dropdownMenu"
+                <!-- <button id="categoriesMenu" data-dropdown-toggle="dropdownMenu"
                     class="text-black  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     type="button">{{ current_category }} <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="m1 1 4 4 4-4" />
-                    </svg></button>
+                    </svg></button> -->
 
                 <!-- Dropdown menu -->
-                <div id="dropdownMenu" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44
+                <!-- <div id="dropdownMenu" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44
                 dark:bg-gray-700">
                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" v-for="index,category in all_categories" :key="index" aria-labelledby="multiLevelDropdownButton">
                         <li>
@@ -24,7 +24,26 @@
                         </li>
 
                     </ul>
-                </div>
+                </div> -->
+                <button id="categoriesMenu" @click="toggleDropdown" class="text-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+    type="button">
+    {{ current_category }}
+    <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+    </svg>
+</button>
+
+<!-- Dropdown menu -->
+<div id="dropdownMenu" v-if="dropdownOpen" class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" v-for="(category, index) in all_categories" :key="index" aria-labelledby="multiLevelDropdownButton">
+        <li>
+            <a @click="changeCategory(category)" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                {{ category }}
+            </a>
+        </li>
+    </ul>
+</div>
+
             </h2>
             <div v-if="products.length==0" class="grid grid-cols-1 mt-6 sm:grid-cols-1 md:grid-cols-1  rounded-md gap-1">
                 
@@ -84,6 +103,7 @@ export default {
     },
     data() {
       return {
+        dropdownOpen: false,
        products:this.$props.data,
        current_products:this.$props.data,
        current_category:"All Categories",
@@ -91,6 +111,9 @@ export default {
       }
   },
   methods: {
+    toggleDropdown() {
+            this.dropdownOpen = !this.dropdownOpen;
+        },
     async setViewer(id:number){
         let myuuid = uuidv4();
         // product.id
