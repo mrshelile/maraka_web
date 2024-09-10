@@ -20,9 +20,9 @@
 
                     <div class="mt-5 flex items-center">
                         <div class="flex">
-                            {{ owner['phone1'] }} {{owner['email']}}
+                            {{ product.owner.phone1 }} {{ product.owner.email}}
                         </div>
-                        <p class="ml-2 text-sm font-medium text-gray-500">{{ owner['full_name']}}</p>
+                        <p class="ml-2 text-sm font-medium text-gray-500">{{ product.owner.full_name}}</p>
                     </div>
 
                     <div v-if="product['category']=='cars' && product['price']>20000" >
@@ -123,8 +123,14 @@
                             <h2 class="text-lg font-bold mb-2">
                                 {{ product.category=='cars'?
                                 Object(product.car)['year']+" "+Object(product.car)['model'] +" "+ Object(product.car)['make']
-                                : product.name}}
+                                : product.name}} 
                             </h2>
+                            <!-- <p class="text-2xl mb-4">
+                               <span class="mr-2"> {{ product.owner.full_name }} </span>
+                                <span class="mr-2">{{ product.owner.phone1 }} </span>
+                               <span>{{ product.owner.email }} </span>
+                            </p> -->
+                            
                             <p class="text-base mb-4">This powerful vehicle runs on <span class="text-orange-500">{{ Object(product.car)['fuel'] }}</span>
                                  fuel and features a <span class="text-blue-500">{{ Object(product.car)['transmission'] }}</span> transmission.</p>
                             <p class="text-base">With a mileage of <span class="font-bold">{{ Object(product.car)['kilos'] }} km</span></p>

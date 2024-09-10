@@ -56,7 +56,7 @@ export default {
                             </span>
                         </a>
                     </div>
-                    <div>
+                    <!-- <div>
                         <button
                             class="bg-gray-100 inline-flex py-3 px-5 rounded-lg items-center hover:bg-gray-200 focus:outline-none">
                             <img :src="huawei" alt="Huawei Logo" class="w w-10">
@@ -65,9 +65,9 @@ export default {
                                 <span class="title-font font-medium">Huawei</span>
                             </span>
                         </button>
-                    </div>
+                    </div> -->
                    
-                    <div>
+                    <!-- <div>
                         <button
                             class="bg-gray-100 inline-flex py-3 px-5 rounded-lg items-center hover:bg-gray-200 focus:outline-none">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-6 h-6"
@@ -84,7 +84,7 @@ export default {
                                 <span class="title-font font-medium">App Store</span>
                             </span>
                         </button>                        
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">

@@ -3,17 +3,15 @@ import {server}  from "../boot/server";
 export async function sendActivationLink(email:string,otpHashed:string,
     emailHashed:string,serverIp:string){
     let message: string = `
-    <html>
-    <body>
-    <h2 style="color: #333;">Activate Your Maraka Account</h2>
-    <p>Dear ${email},</p>
-    <p>Thank you for registering on Maraka! We're excited to have you on board. To complete your registration, please click on the link below to activate your account.</p>
-    <p><a href='${serverIp}/Auth/activate-account/${emailHashed}/${otpHashed}' style="background-color: #333; color: #fff; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Activate Your Account</a></p>
-    <p>If you have any questions or need help, please don't hesitate to contact us at <a href="mailto:support@maraka.co.ls" style="color: #333;">info@maraka.co.ls</a>.</p>
-    <p>Best regards,</p>
-    <p>The Maraka Team</p>
-    </body>
-    </html>
+    
+    Dear ${email}
+    Thank you for registering on Maraka! We're excited to have you on board. To complete your registration, please click on the link below to activate your account
+    ${serverIp}/Auth/activate-account/${emailHashed}/${otpHashed}
+    If you have any questions or need help, please don't hesitate to contact us at support@maraka.co.ls
+    
+    Best regards
+    
+    The Maraka Team
     `;
 
     
@@ -28,7 +26,7 @@ export async function sendActivationLink(email:string,otpHashed:string,
         body:message.toString()
     }
     console.log(data)
-    // return await axios.post(server+"/sendEmail/",data);
+     await axios.post(server+"/sendEmail/",data);
     return new Promise((resolve, reject) => {
       resolve({
         status: 200,
@@ -40,18 +38,15 @@ export async function sendActivationLink(email:string,otpHashed:string,
 export async function sendPasswordResetLink(email:string,serverIp:string,
     emailHashed:string,otpHashed:string) {
         const resetPasswordEmailTemplate = `
-        <html>
-          <body>
-            <h2>Reset Your Maraka Password</h2>
-            <p>Dear ${email},</p>
-            <p>We received a request to reset your password for your Maraka account.</p>
-            <p>To reset your password, please click on the following link:</p> 
-            <p><a href="${serverIp}/auth/reset-password/${emailHashed}/${otpHashed}">Reset Password</a></p>
-            <p>If you did not request a password reset, please ignore this email.</p>
-            <p>Best regards,</p>
-            <p>The Maraka Team</p>
-          </body>
-        </html>
+            Reset Your Maraka Password
+            Dear ${email}
+            We received a request to reset your password for your Maraka account.
+            To reset your password, please click on the following link:
+            ${serverIp}/auth/reset-password/${emailHashed}/${otpHashed}
+            If you did not request a password reset, please ignore this email.
+            Best regards
+
+            The Maraka Team
         `;
 
         const emailBody = resetPasswordEmailTemplate
@@ -64,8 +59,8 @@ export async function sendPasswordResetLink(email:string,serverIp:string,
             subject:subject,
             body:emailBody.toString()
         }
-        console.log(data)
-        // return await axios.post(server+"/sendEmail/",data);
+        // console.log(data)
+        await axios.post(server+"/sendEmail/",data);
         return new Promise((resolve, reject) => {
           resolve({
             status: 200,

@@ -134,7 +134,7 @@ async function extractProductData(product_id:number):Promise<any> {
         ];
         sensitiveFields.forEach(field => delete owner[field]);
         
-        let product:Iproduct = {...res.data};
+        let product:Iproduct = {...res.data,"owner":{...owner}};
         let displays:any[]=[]
         product.display.forEach((element:any) => {
            displays.push({'src':element['image'],'alt':[product.created]})
