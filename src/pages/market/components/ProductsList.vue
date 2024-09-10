@@ -64,6 +64,7 @@
                             :alt="product.name.toString()"
                             class="h-full w-full object-cover object-center lg:h-full lg:w-full">
                     </div>
+                    <!-- {{ Object(product) }} -->
                     <div class="mt-4 ">
                         <div>
                             <h3 class="text-sm text-gray-700">
@@ -93,6 +94,7 @@
 import {createProductViews} from '../../../utils/data/getData'; 
 import { Iproduct } from '../../../interfaces/Iproduct';
 import {v4 as uuidv4} from 'uuid';
+import axios from 'axios';
 export default {
     name: "ProductList",
     props:{
@@ -103,14 +105,16 @@ export default {
     },
     data() {
       return {
+      
         dropdownOpen: false,
-       products:this.$props.data,
-       current_products:this.$props.data,
-       current_category:"All Categories",
-       all_categories:["cars","miscellaneous","All Categories"]
+        products:this.$props.data,
+        current_products:this.$props.data,
+        current_category:"All Categories",
+        all_categories:["cars","miscellaneous","All Categories"]
       }
   },
   methods: {
+    
     toggleDropdown() {
             this.dropdownOpen = !this.dropdownOpen;
         },
@@ -142,8 +146,10 @@ export default {
     },
  
   },
-    mounted() {
-        this.$store.commit("startNav");
+   async mounted() {
+    
+       
+      this.$store.commit("startNav");
 
     },
     created() {

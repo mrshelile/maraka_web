@@ -2,6 +2,7 @@ import {server,bannersUrl,productsUrl,viewerUrl} from '../../boot/server'
 import axios from 'axios';
 import {Iproduct} from '../../interfaces/Iproduct';
 import * as CryptoJS from 'crypto-js'
+import { syncTime } from '../time';
 
 async function getBanners(isHome:boolean):Promise<any> {
    try {
@@ -43,12 +44,19 @@ async function getBanners(isHome:boolean):Promise<any> {
 async function fetchProducts():Promise<Array<Iproduct>>{
     
  try {
+    let time = await syncTime();
+    if (time ==null) {
+        return [];
+    }
     let response = await axios.get(server+productsUrl)
     if (response.status ==200) {
         let products:Array<Iproduct>=[];
         response.data.forEach((element:any) => {
-            let product:Iproduct ={...element };
-            products.push(product);
+        
+            if (new Date(element.expire_date)>new  Date(time)) {
+                let product:Iproduct ={...element };
+                products.push(product);
+            }
         });
         
         return products;
