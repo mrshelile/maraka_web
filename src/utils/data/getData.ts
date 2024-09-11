@@ -44,7 +44,7 @@ async function getBanners(isHome:boolean):Promise<any> {
 async function fetchProducts():Promise<Array<Iproduct>>{
     
  try {
-    let time = await syncTime();
+    let time:any = await syncTime();
     if (time ==null) {
         return [];
     }
