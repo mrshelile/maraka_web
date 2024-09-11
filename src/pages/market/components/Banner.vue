@@ -3,8 +3,8 @@
          <img :src="pictures[0]['src']" :alt="pictures[0]['alt']" class="object-cover h-full w-full"/>
      </div>
     <!-- <fwb-carousel v-else :pictures="$props.banners" class='fwb-carousel' /> -->
-    <carousel :items-to-show="1" >
-        <slide v-for="slide in $props.banners" :key="slide" style="height: 30rem;">
+    <carousel :items-to-show="1"  >
+        <slide v-for="slide in $props.banners" :key="slide" class="max-h-[30rem]  md:max-h-[20rem] lg:max-h-[30rem]">
             <img :src="slide['src']" :alt="slide['alt']" class="object-fill h-full w-full"/>
         </slide>
     
