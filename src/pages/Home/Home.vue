@@ -38,7 +38,7 @@ export default {
     async created() {
         this.banners =await getBanners(true);
         let myuuid = uuidv4();
-
+        console.log(myuuid);
         if(!localStorage.getItem("viewer"))
         {   
            

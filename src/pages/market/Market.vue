@@ -16,7 +16,9 @@ export default {
     },
     async created() {
         this.banners  =await getBanners(true);
+        
         this.products = (await fetchProducts()) as any[];
+        // console.log("reached here")
         this.$store.commit("startNav");
         // console.log(this.$store.state.isNavigation);  
     },
