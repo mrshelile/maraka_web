@@ -64,6 +64,7 @@ export default {
             search: email
             }
         }); 
+        console.log(response.request);  
         if (response.status == 200) {
             for (let index = 0; index < response.data.length; index++) {
                 const element = response.data[index];

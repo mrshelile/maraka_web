@@ -1,7 +1,6 @@
 <script lang="ts">
 
 import LoadingComponetVue from '../../components/LoadingComponet.vue';
-import ErrorComponetVue from '../../components/ErrorComponet.vue';
 import { defineAsyncComponent, ref } from 'vue';
 import {getBanners} from '../../utils/data/getData';
 import {v4 as uuidv4} from 'uuid';
@@ -38,7 +37,7 @@ export default {
     async created() {
         this.banners =await getBanners(true);
         let myuuid = uuidv4();
-        console.log(myuuid);
+        
         if(!localStorage.getItem("viewer"))
         {   
            
@@ -53,7 +52,6 @@ export default {
 </script>
 
 <template>
-    
     <MyHome  :banners="banners" />
 </template>
 
