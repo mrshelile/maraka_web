@@ -48,7 +48,7 @@ export default createRouter({
             beforeEnter:(to:any,from:any)=>{
                 const user:any = localStorage.getItem("email");
                 if(user==null){
-                    return {name:"index"}
+                    return {name:"login"}
                 }
                 return true
             }

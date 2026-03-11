@@ -2,6 +2,8 @@
 import { FwbCarousel } from 'flowbite-vue'
 import buyandsell from '../../../assets/buy.svg?url'
 import { defineComponent } from 'vue';
+import Footer from '../../../components/Footer.vue';
+import Workthrough from '../../../components/Workthrough.vue';
 export default defineComponent({
     name: "MyHome",
     props:{
@@ -21,6 +23,8 @@ export default defineComponent({
     },
     components:{
         FwbCarousel,
+        Footer,
+        Workthrough
     },
     mounted() {
      
@@ -64,8 +68,10 @@ export default defineComponent({
             <img :src="buyandsell" alt="buyandsell">
         </div>
         <fwb-carousel v-else :pictures="$props.banners" class="lg:mt-0 lg:col-span-5" />
-        </div>
+        </div> 
     </section>
+    <Workthrough />
+    <Footer />
 </template>
 
 <style scoped>

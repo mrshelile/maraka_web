@@ -3,11 +3,14 @@
 import LoadingComponetVue from '../../components/LoadingComponet.vue';
 import { defineAsyncComponent, ref } from 'vue';
 import {getBanners} from '../../utils/data/getData';
+import PromotionCardBtn from '../../components/PromotionCard.Btn.vue';
+import Footer from '../../components/Footer.vue';
 import {v4 as uuidv4} from 'uuid';
 
 export default {
     name: "Home",
     components:{
+        PromotionCardBtn,
         'MyHome': defineAsyncComponent({
         loader: async() =>
         {   await getBanners(true);
@@ -53,6 +56,8 @@ export default {
 
 <template>
     <MyHome  :banners="banners" />
+    <PromotionCardBtn />
+    <Footer />
 </template>
 
 <style scoped>
